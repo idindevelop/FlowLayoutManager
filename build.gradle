@@ -26,7 +26,7 @@ subprojects {
     ext.playServiceVersion = "8.4.0"
     ext.androidBuildToolVersion = "23.0.3";
     ext.androidCompileSdkVersion = 23
-    ext.androidMinSdkVersion = 16
+    ext.androidMinSdkVersion = 15
     ext.androidTargetSdkVersion = 23
 }
 
