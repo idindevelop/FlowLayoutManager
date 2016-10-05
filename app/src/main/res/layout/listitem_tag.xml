@@ -3,17 +3,19 @@
               android:orientation="horizontal"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:background="@color/colorPrimary"
+              android:background="@drawable/tagbg"
     android:padding="10dp">
     <TextView
         android:id="@+id/tag_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="4dp"
+        android:textColor="@android:color/white"
         android:text="0000"/>
     <TextView
         android:id="@+id/tag_count"
         android:layout_width="wrap_content"
+        android:textColor="@android:color/white"
         android:layout_height="wrap_content"
         android:text="(4)"/>
 

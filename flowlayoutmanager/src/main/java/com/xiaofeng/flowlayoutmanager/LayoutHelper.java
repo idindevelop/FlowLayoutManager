@@ -47,6 +47,7 @@ public class LayoutHelper {
 			case RIGHT:
 				return x - childWidth < leftEdge;
 			case LEFT:
+			case CENTER:
 			default:
 				return x + childWidth > rightEdge;
 		}
@@ -56,6 +57,8 @@ public class LayoutHelper {
 		switch (layoutContext.layoutOptions.alignment) {
 			case RIGHT:
 				return new Point(rightVisibleEdge(), topVisibleEdge());
+			case LEFT:
+			case CENTER:
 			default:
 				return new Point(leftVisibleEdge(), topVisibleEdge());
 		}

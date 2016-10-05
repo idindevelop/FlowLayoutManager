@@ -47,8 +47,8 @@ public class MainActivity extends AppCompatActivity {
 			}
 		});
 
-		markdownView = (MarkdownView)findViewById(R.id.instruction_mdown);
-		markdownView.loadMarkdownFile("file:///android_asset/instruction.md");
+//		markdownView = (MarkdownView)findViewById(R.id.instruction_mdown);
+//		markdownView.loadMarkdownFile("file:///android_asset/instruction.md");
 		loadSettingsFromSharedPref();
 	}
 

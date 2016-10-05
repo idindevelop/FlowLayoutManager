@@ -44,7 +44,7 @@ public class DemoUtil {
 			char baseChar = STRING_BASE.charAt(baseIndex);
 			char[] chars = new char[len];
 			for (int j = 0; j < len; j ++) {
-				chars[j] = baseChar;
+				chars[j] = Character.forDigit(j, 10);
 			}
 			result.add(new String(chars));
 		}

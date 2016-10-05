@@ -5,5 +5,6 @@ package com.xiaofeng.flowlayoutmanager;
  */
 public enum Alignment {
 	LEFT,
-	RIGHT
+	RIGHT,
+	CENTER
 }

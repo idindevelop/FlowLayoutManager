@@ -1,7 +1,7 @@
 // to publish run ./gradlew clean bintrayUpload
 
 apply plugin: 'com.android.library'
-apply plugin: 'com.github.dcendents.android-maven'
+//apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
 project.ext {
@@ -57,41 +57,41 @@ dependencies {
 Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 
-install {
-    repositories.mavenInstaller {
-        // This generates POM.xml with proper parameters
-        pom {
-            project {
-                packaging 'aar'
-
-                // Add your description here
-                name 'FlowLayoutManager for android RecyclerView'
-                url siteUrl
-
-                // Set your license
-                licenses {
-                    license {
-                        name 'GPL-v3.0'
-                        url 'http://www.gnu.org/licenses/gpl-3.0.en.html'
-                    }
-                }
-                developers {
-                    developer {
-                        id 'xiaofeng-han'
-                        name 'Xiaofeng Han'
-                        email 'hhhanxf@gmail.com'
-                    }
-                }
-                scm {
-                    connection gitUrl
-                    developerConnection gitUrl
-                    url gitUrl
-
-                }
-            }
-        }
-    }
-}
+//install {
+//    repositories.mavenInstaller {
+//        // This generates POM.xml with proper parameters
+//        pom {
+//            project {
+//                packaging 'aar'
+//
+//                // Add your description here
+//                name 'FlowLayoutManager for android RecyclerView'
+//                url siteUrl
+//
+//                // Set your license
+//                licenses {
+//                    license {
+//                        name 'GPL-v3.0'
+//                        url 'http://www.gnu.org/licenses/gpl-3.0.en.html'
+//                    }
+//                }
+//                developers {
+//                    developer {
+//                        id 'xiaofeng-han'
+//                        name 'Xiaofeng Han'
+//                        email 'hhhanxf@gmail.com'
+//                    }
+//                }
+//                scm {
+//                    connection gitUrl
+//                    developerConnection gitUrl
+//                    url gitUrl
+//
+//                }
+//            }
+//        }
+//    }
+//}
 
 task sourcesJar(type: Jar) {
     from android.sourceSets.main.java.srcDirs
