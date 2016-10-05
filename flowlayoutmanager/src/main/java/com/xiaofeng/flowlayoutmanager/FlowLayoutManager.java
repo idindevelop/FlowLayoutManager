@@ -1,19 +1,17 @@
 package com.xiaofeng.flowlayoutmanager;
 
+import com.xiaofeng.flowlayoutmanager.cache.CacheHelper;
+import com.xiaofeng.flowlayoutmanager.cache.Line;
+
 import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.Rect;
 import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 
-import com.xiaofeng.flowlayoutmanager.cache.CacheHelper;
-import com.xiaofeng.flowlayoutmanager.cache.Line;
-
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -142,7 +140,6 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
 //	}
 
 	private void onRealLayoutChildren(RecyclerView.Recycler recycler) {
-		Log.d(TAG, "onRealLayoutChildren: ");
 
 		detachAndScrapAttachedViews(recycler);
 		Point startPoint = layoutStartPoint();
@@ -259,8 +256,7 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
 
 	@Override
 	public void onItemsChanged(RecyclerView recyclerView) {
-		Log.d(TAG, "onItemsChanged: ");
-		this.flowLayoutOptions = FlowLayoutOptions.clone(newFlowLayoutOptions);
+				this.flowLayoutOptions = FlowLayoutOptions.clone(newFlowLayoutOptions);
 		if (cacheHelper != null) {
 			cacheHelper.clear();
 		}
@@ -277,7 +273,7 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
 
 	@Override
 	public void onItemsRemoved(RecyclerView recyclerView, final int positionStart, final int itemCount) {
-		Log.d(TAG, "onItemsRemoved: ");
+		
 		cacheHelper.remove(positionStart, itemCount);
 		super.onItemsRemoved(recyclerView, positionStart, itemCount);
 	}
@@ -304,7 +300,7 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
 	 * Contents moving up to top
 	 */
 	private int contentMoveUp(int dy, RecyclerView.Recycler recycler) {
-		Log.d(TAG, "contentMoveUp: items = " + getChildCount());
+		
 
 		int actualDy = dy;
 		int maxHeightIndex = getMaxHeightLayoutPositionInLine(getChildCount() - 1);
@@ -339,7 +335,7 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
 	 * Contents move down to bottom
 	 */
 	private int contentMoveDown(int dy, RecyclerView.Recycler recycler) {
-		Log.d(TAG, "contentMoveDown: ");
+		
 		int actualDy = dy;
 		int maxHeightItemIndex = getMaxHeightLayoutPositionInLine(0);
 		View maxHeightItem = getChildAt(maxHeightItemIndex);
@@ -381,7 +377,7 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
 	 * or cache the result.
 	 */
 	private void addNewLineAtTop(RecyclerView.Recycler recycler) {
-		Log.d(TAG, "addNewLineAtTop: ");
+		
 
 		int x = layoutStartPoint().x, bottom = getDecoratedTop(getChildAt(getMaxHeightLayoutPositionInLine(0))), y;
 		int height = 0;
@@ -468,8 +464,7 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
 	 * Add new line at bottom of views.
 	 */
 	private void addNewLineAtBottom(RecyclerView.Recycler recycler) {
-		Log.d(TAG, "addNewLineAtBottom: ");
-
+		
 		int x = layoutStartPoint().x, y = getDecoratedBottom(getChildAt(getMaxHeightLayoutPositionInLine(getChildCount() - 1)));
 		int childAdapterPosition = getChildAdapterPosition(getChildCount() - 1) + 1;
 		// no item to add
@@ -658,14 +653,11 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
 	}
 
 	private void recycleLine(int index, RecyclerView.Recycler recycler) {
-		Log.d(TAG, "recycleLine start: childs: " + getChildCount());
-		List<View> viewList = getAllViewsInLine(index);
-		Log.d(TAG, "recycleLine: views to rceycle:" + viewList.size());
-		for (View viewToRecycle : viewList) {
+				List<View> viewList = getAllViewsInLine(index);
+				for (View viewToRecycle : viewList) {
 			removeAndRecycleView(viewToRecycle, recycler);
 		}
-		Log.d(TAG, "recycleLine end: childs: " + getChildCount());
-	}
+			}
 
 	private int getOffsetOfItemToFirstChild(int adapterPosition, RecyclerView.Recycler recycler) {
 		int firstChildPosition = getChildAdapterPosition(0);
@@ -778,8 +770,7 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
 	}
 
 	public FlowLayoutManager removeItemPerLineLimit() {
-		Log.d(TAG, "removeItemPerLineLimit: ");
-		if (layoutHelper == null) {
+				if (layoutHelper == null) {
 			flowLayoutOptions.itemsPerLine = FlowLayoutOptions.ITEM_PER_LINE_NO_LIMIT;
 		} else {
 			newFlowLayoutOptions.itemsPerLine = FlowLayoutOptions.ITEM_PER_LINE_NO_LIMIT;
