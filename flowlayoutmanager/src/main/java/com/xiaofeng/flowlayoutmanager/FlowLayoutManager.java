@@ -273,7 +273,7 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
 
 	@Override
 	public void onItemsRemoved(RecyclerView recyclerView, final int positionStart, final int itemCount) {
-		
+
 		cacheHelper.remove(positionStart, itemCount);
 		super.onItemsRemoved(recyclerView, positionStart, itemCount);
 	}
@@ -300,7 +300,7 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
 	 * Contents moving up to top
 	 */
 	private int contentMoveUp(int dy, RecyclerView.Recycler recycler) {
-		
+
 
 		int actualDy = dy;
 		int maxHeightIndex = getMaxHeightLayoutPositionInLine(getChildCount() - 1);
@@ -335,7 +335,7 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
 	 * Contents move down to bottom
 	 */
 	private int contentMoveDown(int dy, RecyclerView.Recycler recycler) {
-		
+
 		int actualDy = dy;
 		int maxHeightItemIndex = getMaxHeightLayoutPositionInLine(0);
 		View maxHeightItem = getChildAt(maxHeightItemIndex);
@@ -377,7 +377,7 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
 	 * or cache the result.
 	 */
 	private void addNewLineAtTop(RecyclerView.Recycler recycler) {
-		
+
 
 		int x = layoutStartPoint().x, bottom = getDecoratedTop(getChildAt(getMaxHeightLayoutPositionInLine(0))), y;
 		int height = 0;
@@ -456,7 +456,7 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
 
 	private void layoutAppenders(int x, List<LayoutManagerAppender> appenders) {
 		for (LayoutManagerAppender appender : appenders) {
-			appender.layout(((rightVisibleEdge() - leftVisibleEdge()) - x) >> 1);
+			appender.layout((rightVisibleEdge() - x) >> 1);
 		}
 	}
 
@@ -464,7 +464,7 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
 	 * Add new line at bottom of views.
 	 */
 	private void addNewLineAtBottom(RecyclerView.Recycler recycler) {
-		
+
 		int x = layoutStartPoint().x, y = getDecoratedBottom(getChildAt(getMaxHeightLayoutPositionInLine(getChildCount() - 1)));
 		int childAdapterPosition = getChildAdapterPosition(getChildCount() - 1) + 1;
 		// no item to add
