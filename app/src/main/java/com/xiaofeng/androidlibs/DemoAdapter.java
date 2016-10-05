@@ -37,8 +37,8 @@ public class DemoAdapter extends RecyclerView.Adapter<DemoViewHolder> {
         holder.setTagText(items.get(position));
         holder.tagSize.setClickable(false);
         holder.tagText.setClickable(false);
-        holder.tagSize.setText("(" + position + ")");
-        holder.tagSize.setVisibility(View.VISIBLE);
+//        holder.tagSize.setText("(" + position + ")");
+//        holder.tagSize.setVisibility(View.VISIBLE);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

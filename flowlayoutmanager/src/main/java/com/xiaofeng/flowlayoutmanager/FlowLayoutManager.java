@@ -8,9 +8,11 @@ import android.graphics.PointF;
 import android.graphics.Rect;
 import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.Toast;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -53,94 +55,94 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
 		}
 
 		recyclerRef = recycler;
-//		if (state.isPreLayout()) {
-//			onPreLayoutChildren(recycler, state);
-//		} else {
+		if (state.isPreLayout()) {
+			onPreLayoutChildren(recycler, state);
+		} else {
 			cacheHelper.startBatchSetting();
 			onRealLayoutChildren(recycler);
 			cacheHelper.endBatchSetting();
-//		}
+		}
 
 	}
 
-//	private void onPreLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) {
-//
-//		// start from first view child
-//		int firstItemAdapterPosition = getChildAdapterPosition(0);
-//		if (firstItemAdapterPosition == RecyclerView.NO_POSITION) {
-//			detachAndScrapAttachedViews(recycler);
-//			return;
-//		}
-//		int currentItemPosition = firstItemAdapterPosition < 0 ? 0 : firstItemAdapterPosition;
-//		Point point = layoutHelper.layoutStartPoint(LayoutContext.fromLayoutOptions(flowLayoutOptions));
-//		int x = point.x, y = point.y, height = 0;
-//		boolean newline;
-//		int real_x = point.x, real_y = point.y, real_height = 0;
-//		boolean real_newline;
-//		Rect rect = new Rect();
-//		Rect real_rect = new Rect();
-//		// detach all first.
-//		detachAndScrapAttachedViews(recycler);
-//
-//		LayoutContext beforeContext = LayoutContext.fromLayoutOptions(flowLayoutOptions);
-//
-//		// this option use old options alignment & new options line limit to calc items for animation.
-//		LayoutContext afterContext = LayoutContext.clone(beforeContext);
-//		afterContext.layoutOptions.itemsPerLine = newFlowLayoutOptions.itemsPerLine;
-//
-//		// track before removed and after removed layout in same time, to make sure only add items at
-//		// bottom that visible after item removed.
-//		while (currentItemPosition < state.getItemCount()) {
-//			View child = recycler.getViewForPosition(currentItemPosition);
-//			boolean childRemoved = isChildRemoved(child);
-//			// act as removed view still there, to calc new items location.
-//			newline = calcChildLayoutRect(child, x, y, height, beforeContext, rect);
-//			if (newline) {
-//				point = startNewline(rect, beforeContext);
-//				x = point.x;
-//				y = point.y;
-//				height = rect.height();
-//				beforeContext.currentLineItemCount = 1;
-//			} else {
-//				x = advanceInSameLine(x, rect, beforeContext);
-//				height = Math.max(height, rect.height());
-//				beforeContext.currentLineItemCount ++;
-//			}
-//
-//			if (!childRemoved) {
-//				real_newline = calcChildLayoutRect(child, real_x, real_y, real_height, afterContext, real_rect);
-//				if (real_newline) {
-//					point = startNewline(real_rect, afterContext);
-//					real_x = point.x;
-//					real_y = point.y;
-//					real_height = real_rect.height();
-//					afterContext.currentLineItemCount = 1;
-//				} else {
-//					real_x = advanceInSameLine(real_x, real_rect, afterContext);
-//					real_height = Math.max(real_height, real_rect.height());
-//					afterContext.currentLineItemCount ++;
-//				}
-//			}
-//
-//			// stop add new view if after removal, new items are not visible.
-//			if (!childVisible(true, real_x, real_y, real_x + rect.width(), real_y + rect.height())) {
-//				recycler.recycleView(child);
-//				break;
-//			} else {
-//				if (childRemoved) {
-//					addDisappearingView(child);
-//				} else {
-//					addView(child);
-//				}
-//				layoutDecorated(child, rect.left, rect.top, rect.right, rect.bottom);
-//			}
-//			currentItemPosition ++;
-//		}
-//		flowLayoutOptions = FlowLayoutOptions.clone(newFlowLayoutOptions);
-//	}
+	private void onPreLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) {
+
+		// start from first view child
+		int firstItemAdapterPosition = getChildAdapterPosition(0);
+		if (firstItemAdapterPosition == RecyclerView.NO_POSITION) {
+			detachAndScrapAttachedViews(recycler);
+			return;
+		}
+		int currentItemPosition = firstItemAdapterPosition < 0 ? 0 : firstItemAdapterPosition;
+		Point point = layoutHelper.layoutStartPoint(LayoutContext.fromLayoutOptions(flowLayoutOptions));
+		int x = point.x, y = point.y, height = 0;
+		boolean newline;
+		int real_x = point.x, real_y = point.y, real_height = 0;
+		boolean real_newline;
+		Rect rect = new Rect();
+		Rect real_rect = new Rect();
+		// detach all first.
+		detachAndScrapAttachedViews(recycler);
+
+		LayoutContext beforeContext = LayoutContext.fromLayoutOptions(flowLayoutOptions);
+
+		// this option use old options alignment & new options line limit to calc items for animation.
+		LayoutContext afterContext = LayoutContext.clone(beforeContext);
+		afterContext.layoutOptions.itemsPerLine = newFlowLayoutOptions.itemsPerLine;
+
+		// track before removed and after removed layout in same time, to make sure only add items at
+		// bottom that visible after item removed.
+		while (currentItemPosition < state.getItemCount()) {
+			View child = recycler.getViewForPosition(currentItemPosition);
+			boolean childRemoved = isChildRemoved(child);
+			// act as removed view still there, to calc new items location.
+			newline = calcChildLayoutRect(child, x, y, height, beforeContext, rect);
+			if (newline) {
+				point = startNewline(rect, beforeContext);
+				x = point.x;
+				y = point.y;
+				height = rect.height();
+				beforeContext.currentLineItemCount = 1;
+			} else {
+				x = advanceInSameLine(x, rect, beforeContext);
+				height = Math.max(height, rect.height());
+				beforeContext.currentLineItemCount ++;
+			}
+
+			if (!childRemoved) {
+				real_newline = calcChildLayoutRect(child, real_x, real_y, real_height, afterContext, real_rect);
+				if (real_newline) {
+					point = startNewline(real_rect, afterContext);
+					real_x = point.x;
+					real_y = point.y;
+					real_height = real_rect.height();
+					afterContext.currentLineItemCount = 1;
+				} else {
+					real_x = advanceInSameLine(real_x, real_rect, afterContext);
+					real_height = Math.max(real_height, real_rect.height());
+					afterContext.currentLineItemCount ++;
+				}
+			}
+
+			// stop add new view if after removal, new items are not visible.
+			if (!childVisible(true, real_x, real_y, real_x + rect.width(), real_y + rect.height())) {
+				recycler.recycleView(child);
+				break;
+			} else {
+				if (childRemoved) {
+					addDisappearingView(child);
+				} else {
+					addView(child);
+				}
+				layoutDecorated(child, rect.left, rect.top, rect.right, rect.bottom);
+			}
+			currentItemPosition ++;
+		}
+		flowLayoutOptions = FlowLayoutOptions.clone(newFlowLayoutOptions);
+	}
 
 	private void onRealLayoutChildren(RecyclerView.Recycler recycler) {
-
+		Log.d(TAG, "onRealLayoutChildren: ");
 		detachAndScrapAttachedViews(recycler);
 		Point startPoint = layoutStartPoint();
 		int x = startPoint.x, y = startPoint.y;
@@ -162,7 +164,6 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
 				return;
 			} else {
 				addView(child);
-//				layoutDecorated(child, rect.left, rect.top, rect.right, rect.bottom);
 				appenders.add(new LayoutManagerAppender(child, this, rect));
 				cacheHelper.setItem(i, new Point(rect.width(), rect.height()));
 			}
@@ -185,6 +186,7 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
 				layoutContext.currentLineItemCount ++;
 			}
 		}
+		layoutAppenders(x, appenders);
 	}
 
 	@Override

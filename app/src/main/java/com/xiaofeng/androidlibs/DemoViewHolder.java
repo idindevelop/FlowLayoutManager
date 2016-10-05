@@ -5,7 +5,7 @@ import android.view.View;
 import android.widget.TextView;
 
 public class DemoViewHolder extends RecyclerView.ViewHolder {
-	boolean showMeta = true;
+	boolean showMeta = false;
 	TextView tagText, tagSize;
 	public DemoViewHolder(View itemView) {
 		super(itemView);
