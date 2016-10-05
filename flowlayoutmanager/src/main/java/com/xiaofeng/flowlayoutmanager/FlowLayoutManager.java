@@ -5,6 +5,7 @@ import android.graphics.PointF;
 import android.graphics.Rect;
 import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -23,6 +24,7 @@ import java.util.List;
 public class FlowLayoutManager extends RecyclerView.LayoutManager {
 
 	private static final String LOG_TAG = "FlowLayoutManager";
+	private static final String TAG = "FlowLayoutManager";
 	RecyclerView recyclerView;
 	int firstChildAdapterPosition = 0;
 	RecyclerView.Recycler recyclerRef;
@@ -30,6 +32,8 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
 	FlowLayoutOptions newFlowLayoutOptions;
 	LayoutHelper layoutHelper;
 	CacheHelper cacheHelper;
+
+
 	public FlowLayoutManager() {
 		flowLayoutOptions = new FlowLayoutOptions();
 		newFlowLayoutOptions = FlowLayoutOptions.clone(flowLayoutOptions);
@@ -50,7 +54,7 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
 			cacheHelper.contentAreaWidth(layoutHelper.visibleAreaWidth());
 		}
 
-//		recyclerRef = recycler;
+		recyclerRef = recycler;
 //		if (state.isPreLayout()) {
 //			onPreLayoutChildren(recycler, state);
 //		} else {
@@ -138,6 +142,8 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
 //	}
 
 	private void onRealLayoutChildren(RecyclerView.Recycler recycler) {
+		Log.d(TAG, "onRealLayoutChildren: ");
+
 		detachAndScrapAttachedViews(recycler);
 		Point startPoint = layoutStartPoint();
 		int x = startPoint.x, y = startPoint.y;
@@ -147,26 +153,28 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
 		Rect rect = new Rect();
 		LayoutContext layoutContext = LayoutContext.fromLayoutOptions(flowLayoutOptions);
 
-		LinkedList<LayoutManagerAppender> views = new LinkedList<>();
+		LinkedList<LayoutManagerAppender> appenders = new LinkedList<>();
 
 		for (int i = firstChildAdapterPosition; i < itemCount; i ++) {
 			View child = recycler.getViewForPosition(i);
 			newLine = calcChildLayoutRect(child, x, y, height, layoutContext, rect);
 			if (!childVisible(false, rect)) {
 				recycler.recycleView(child);
+				layoutAppenders(x, appenders);
+				appenders.clear();
 				return;
 			} else {
 				addView(child);
 //				layoutDecorated(child, rect.left, rect.top, rect.right, rect.bottom);
-				views.add(new LayoutManagerAppender(child, this, rect));
+				appenders.add(new LayoutManagerAppender(child, this, rect));
 				cacheHelper.setItem(i, new Point(rect.width(), rect.height()));
 			}
 
 			if (newLine) {
-				LayoutManagerAppender last = views.removeLast();
-				layoutAppenders(x, views);
-				views.clear();
-				views.add(last);
+				LayoutManagerAppender last = appenders.removeLast();
+				layoutAppenders(x, appenders);
+				appenders.clear();
+				appenders.add(last);
 
 				Point lineInfo = startNewline(rect);
 				x = lineInfo.x;
@@ -251,6 +259,7 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
 
 	@Override
 	public void onItemsChanged(RecyclerView recyclerView) {
+		Log.d(TAG, "onItemsChanged: ");
 		this.flowLayoutOptions = FlowLayoutOptions.clone(newFlowLayoutOptions);
 		if (cacheHelper != null) {
 			cacheHelper.clear();
@@ -268,6 +277,7 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
 
 	@Override
 	public void onItemsRemoved(RecyclerView recyclerView, final int positionStart, final int itemCount) {
+		Log.d(TAG, "onItemsRemoved: ");
 		cacheHelper.remove(positionStart, itemCount);
 		super.onItemsRemoved(recyclerView, positionStart, itemCount);
 	}
@@ -294,6 +304,8 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
 	 * Contents moving up to top
 	 */
 	private int contentMoveUp(int dy, RecyclerView.Recycler recycler) {
+		Log.d(TAG, "contentMoveUp: items = " + getChildCount());
+
 		int actualDy = dy;
 		int maxHeightIndex = getMaxHeightLayoutPositionInLine(getChildCount() - 1);
 		View maxHeightItem = getChildAt(maxHeightIndex);
@@ -327,6 +339,7 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
 	 * Contents move down to bottom
 	 */
 	private int contentMoveDown(int dy, RecyclerView.Recycler recycler) {
+		Log.d(TAG, "contentMoveDown: ");
 		int actualDy = dy;
 		int maxHeightItemIndex = getMaxHeightLayoutPositionInLine(0);
 		View maxHeightItem = getChildAt(maxHeightItemIndex);
@@ -368,6 +381,8 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
 	 * or cache the result.
 	 */
 	private void addNewLineAtTop(RecyclerView.Recycler recycler) {
+		Log.d(TAG, "addNewLineAtTop: ");
+
 		int x = layoutStartPoint().x, bottom = getDecoratedTop(getChildAt(getMaxHeightLayoutPositionInLine(0))), y;
 		int height = 0;
 		List<View> lineChildren = new LinkedList<>();
@@ -437,7 +452,6 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
 				firstItem = false;
 			}
 			appenders.add(new LayoutManagerAppender(childView, this, rect));
-//			layoutDecorated(childView, rect.left, rect.top, rect.right, rect.bottom);
 			x = advanceInSameLine(x, rect, layoutContext);
 		}
 
@@ -454,6 +468,8 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
 	 * Add new line at bottom of views.
 	 */
 	private void addNewLineAtBottom(RecyclerView.Recycler recycler) {
+		Log.d(TAG, "addNewLineAtBottom: ");
+
 		int x = layoutStartPoint().x, y = getDecoratedBottom(getChildAt(getMaxHeightLayoutPositionInLine(getChildCount() - 1)));
 		int childAdapterPosition = getChildAdapterPosition(getChildCount() - 1) + 1;
 		// no item to add
@@ -471,12 +487,11 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
 			newline = calcChildLayoutRect(newChild, x, y, 0, layoutContext, rect);
 			cacheHelper.setItem(childAdapterPosition, new Point(rect.width(), rect.height()));
 			if (newline && !firstItem) {
-//				recycler.recycleView(newChild);
+				recycler.recycleView(newChild);
 				layoutContext.currentLineItemCount = 1;
 				break;
 			} else {
 				addView(newChild);
-//				layoutDecorated(newChild, rect.left, rect.top, rect.right, rect.bottom);
 				appenders.add(new LayoutManagerAppender(newChild, this, rect));
 				x = advanceInSameLine(x, rect, layoutContext);
 				childAdapterPosition++;
@@ -643,10 +658,13 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
 	}
 
 	private void recycleLine(int index, RecyclerView.Recycler recycler) {
+		Log.d(TAG, "recycleLine start: childs: " + getChildCount());
 		List<View> viewList = getAllViewsInLine(index);
+		Log.d(TAG, "recycleLine: views to rceycle:" + viewList.size());
 		for (View viewToRecycle : viewList) {
 			removeAndRecycleView(viewToRecycle, recycler);
 		}
+		Log.d(TAG, "recycleLine end: childs: " + getChildCount());
 	}
 
 	private int getOffsetOfItemToFirstChild(int adapterPosition, RecyclerView.Recycler recycler) {
@@ -760,6 +778,7 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
 	}
 
 	public FlowLayoutManager removeItemPerLineLimit() {
+		Log.d(TAG, "removeItemPerLineLimit: ");
 		if (layoutHelper == null) {
 			flowLayoutOptions.itemsPerLine = FlowLayoutOptions.ITEM_PER_LINE_NO_LIMIT;
 		} else {
@@ -864,8 +883,9 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
 				case RIGHT:
 					return getDecoratedRight(getChildAt(index)) >= rightVisibleEdge();
 				case LEFT:
+				case CENTER:
 				default:
-					return getDecoratedLeft(getChildAt(index)) <= leftVisibleEdge();
+					return getDecoratedTop(getChildAt(index)) > getDecoratedTop(getChildAt(index - 1));
 			}
 		}
 	}
