@@ -897,10 +897,10 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
             return 0;
         }
 //        if (!smoothScrollbarEnabled) {
-//            return Math.abs(lm.getPosition(startChild) - lm.getPosition(endChild)) + 1;
+            return Math.abs(getPosition(startChild) - getPosition(endChild)) + 1;
 //        }
-        final int extend = getDecoratedRight(endChild) - getDecoratedLeft(startChild);
-        return Math.min(getTotalSpace(), extend);
+//        final int extend = getDecoratedRight(endChild) - getDecoratedLeft(startChild);
+//        return Math.min(getTotalSpace(), extend);
 
     }
 
@@ -924,11 +924,13 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
         final int maxPosition = Math.max(getPosition(startChild), getPosition(endChild));
         final int itemsBefore = Math.max(0, minPosition);
 
-        final int laidOutArea = Math.abs(getDecoratedBottom(endChild) - getDecoratedTop(startChild));
-        final int itemRange = Math.abs(getPosition(startChild) - getPosition(endChild)) + 1;
-        final float avgSizePerRow = (float) laidOutArea / itemRange;
+        return itemsBefore;
 
-        return Math.round(itemsBefore * avgSizePerRow + (getPaddingTop() - getDecoratedTop(startChild)));
+//        final int laidOutArea = Math.abs(getDecoratedBottom(endChild) - getDecoratedTop(startChild));
+//        final int itemRange = Math.abs(getPosition(startChild) - getPosition(endChild)) + 1;
+//        final float avgSizePerRow = (float) laidOutArea / itemRange;
+//
+//        return Math.round(itemsBefore * avgSizePerRow + (getPaddingTop() - getDecoratedTop(startChild)));
     }
 
     @Override
@@ -937,16 +939,19 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
             return 0;
         }
 
-        View firstChild = getChildAt(0);
-        View lastChild = getChildAt(getChildCount() - 1);
+//        View firstChild = getChildAt(0);
+//        View lastChild = getChildAt(getChildCount() - 1);
 
-        if (state.getItemCount() == 0 || firstChild == null || lastChild == null) {
-            return 0;
-        }
-        final int laidOutArea = getDecoratedBottom(lastChild) - getDecoratedTop(firstChild);
-        final int laidOutRange = Math.abs(getPosition(firstChild) - getPosition(lastChild)) + 1;
-        // estimate a size for full list.
-        return (int) ((float) laidOutArea / laidOutRange * state.getItemCount());
+//        if (state.getItemCount() == 0 || firstChild == null || lastChild == null) {
+//            return 0;
+//        }
+
+        return state.getItemCount();
+
+//        final int laidOutArea = getDecoratedBottom(lastChild) - getDecoratedTop(firstChild);
+//        final int laidOutRange = Math.abs(getPosition(firstChild) - getPosition(lastChild)) + 1;
+//         estimate a size for full list.
+//        return (int) ((float) laidOutArea / laidOutRange * state.getItemCount());
 
 //		return super.computeVerticalScrollRange(state);
     }
