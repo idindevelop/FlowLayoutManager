@@ -471,7 +471,7 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
 			view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 				@Override
 				public void onGlobalLayout() {
-					view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+					view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
 					cacheHelper.contentAreaWidth(layoutHelper.visibleAreaWidth());
 				}
 			});
