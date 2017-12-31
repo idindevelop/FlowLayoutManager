@@ -34,14 +34,27 @@ Single item per line
 ```java
 recyclerView.setLayoutManager(new FlowLayoutManager().singleItemPerLine());
 ```
+
+```kotlin
+recyclerView.setLayoutManager(FlowLayoutManager().singleItemPerLine())
+```
+
 or x items per line
 ```java
 recyclerView.setLayoutManager(new FlowLayoutManager().maxItemsPerLine(x));
 ```
 
+```kotlin
+recyclerView.setLayoutManager(FlowLayoutManager().maxItemsPerLine(x))
+```
+
 to remove Item per line limitation
 ```java
 ((FlowLayoutManager)recyclerView.getLayoutManager()).removeItemPerLineLimit();
+```
+
+```kotlin
+(recyclerView.getLayoutManager() as FlowLayoutManager).removeItemPerLineLimit()
 ```
 
 Auto measurement
@@ -52,10 +65,19 @@ flowLayoutManager.setAutoMeasureEnabled(true);
 recyclerView.setLayoutManager(flowLayoutManager);
 ```
 
+```kotlin
+flowLayoutManager = FlowLayoutManager()
+flowLayoutManager.setAutoMeasureEnabled(true)
+recyclerView.setLayoutManager(flowLayoutManager)
+```
+
 Alignment
 ---
 ```java
 recyclerView.setLayoutManager(new FlowLayoutManager().setAlignment(Alignment.LEFT));
+```
+```kotlin
+recyclerView.setLayoutManager(FlowLayoutManager().setAlignment(Alignment.LEFT))
 ```
 Alignment could be LEFT, CENTER or RIGHT.
 

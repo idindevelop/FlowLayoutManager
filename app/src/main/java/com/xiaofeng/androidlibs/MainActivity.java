@@ -35,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
 
                     recyclerView.setLayoutManager(flowLayoutManager);
                     recyclerView.getAdapter().notifyDataSetChanged();
-                    recyclerView.addItemDecoration(itemDecoration);
 
                     return true;
                 case R.id.navigation_center:
@@ -44,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
 
                     recyclerView.setLayoutManager(flowLayoutManager);
                     recyclerView.getAdapter().notifyDataSetChanged();
-                    recyclerView.addItemDecoration(itemDecoration);
 
                     return true;
                 case R.id.navigation_rigth:
@@ -53,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
 
                     recyclerView.setLayoutManager(flowLayoutManager);
                     recyclerView.getAdapter().notifyDataSetChanged();
-                    recyclerView.addItemDecoration(itemDecoration);
 
                     return true;
             }

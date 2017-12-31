@@ -2,14 +2,11 @@ package com.xiaofeng.androidlibs;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * Utility for demo item listWords
  */
 public class DemoUtil {
-	private static final Random random = new Random();
-	private static final String STRING_BASE = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 	public static List<String> listWords() {
 		ArrayList<String> result = new ArrayList<>();
