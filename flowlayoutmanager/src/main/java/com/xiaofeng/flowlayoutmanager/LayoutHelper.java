@@ -15,26 +15,6 @@ public class LayoutHelper {
 		this.recyclerView = recyclerView;
 	}
 
-	public int leftVisibleEdge() {
-		return recyclerView.getPaddingLeft();
-	}
-
-	public int rightVisibleEdge() {
-		return layoutManager.getWidth() - layoutManager.getPaddingRight();
-	}
-
-	public int visibleAreaWidth() {
-		return rightVisibleEdge() - leftVisibleEdge();
-	}
-
-	public int topVisibleEdge() {
-		return layoutManager.getPaddingTop();
-	}
-
-	public int bottomVisibleEdge() {
-		return layoutManager.getHeight() - layoutManager.getPaddingBottom();
-	}
-
 	public static boolean hasItemsPerLineLimit(FlowLayoutOptions layoutOptions) {
 		return layoutOptions.itemsPerLine > 0;
 	}
@@ -47,20 +27,40 @@ public class LayoutHelper {
 			case RIGHT:
 				return x - childWidth < leftEdge;
 			case LEFT:
-			case CENTER:
-			default:
-				return x + childWidth > rightEdge;
+            case CENTER:
+            default:
+                return x + childWidth > rightEdge;
 		}
 	}
+
+    public int leftVisibleEdge() {
+        return recyclerView.getPaddingLeft();
+    }
+
+    public int rightVisibleEdge() {
+        return layoutManager.getWidth() - layoutManager.getPaddingRight();
+    }
+
+    public int visibleAreaWidth() {
+        return rightVisibleEdge() - leftVisibleEdge();
+    }
+
+    public int topVisibleEdge() {
+        return layoutManager.getPaddingTop();
+    }
+
+    public int bottomVisibleEdge() {
+        return layoutManager.getHeight() - layoutManager.getPaddingBottom();
+    }
 
 	public Point layoutStartPoint(LayoutContext layoutContext) {
 		switch (layoutContext.layoutOptions.alignment) {
 			case RIGHT:
 				return new Point(rightVisibleEdge(), topVisibleEdge());
-			case LEFT:
-			case CENTER:
-			default:
-				return new Point(leftVisibleEdge(), topVisibleEdge());
+            case LEFT:
+            case CENTER:
+            default:
+                return new Point(leftVisibleEdge(), topVisibleEdge());
 		}
 	}
 }

@@ -1,8 +1,5 @@
 package com.xiaofeng.flowlayoutmanager;
 
-import com.xiaofeng.flowlayoutmanager.cache.CacheHelper;
-import com.xiaofeng.flowlayoutmanager.cache.Line;
-
 import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.Rect;
@@ -12,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.widget.Toast;
 
 import com.xiaofeng.flowlayoutmanager.cache.CacheHelper;
 import com.xiaofeng.flowlayoutmanager.cache.Line;
@@ -27,15 +23,15 @@ import java.util.List;
 public class FlowLayoutManager extends RecyclerView.LayoutManager {
 
 	private static final String LOG_TAG = "FlowLayoutManager";
-	RecyclerView recyclerView;
-	int firstChildAdapterPosition = 0;
-	RecyclerView.Recycler recyclerRef;
-	FlowLayoutOptions flowLayoutOptions;
-	FlowLayoutOptions newFlowLayoutOptions;
-	LayoutHelper layoutHelper;
-	CacheHelper cacheHelper;
-	@Nullable
-	private ViewTreeObserver.OnGlobalLayoutListener globalLayoutListener;
+    private RecyclerView recyclerView;
+    private int firstChildAdapterPosition = 0;
+    private RecyclerView.Recycler recyclerRef;
+    private FlowLayoutOptions flowLayoutOptions;
+    private FlowLayoutOptions newFlowLayoutOptions;
+    private LayoutHelper layoutHelper;
+    private CacheHelper cacheHelper;
+    @Nullable
+    private ViewTreeObserver.OnGlobalLayoutListener globalLayoutListener;
 
 	public FlowLayoutManager() {
 		flowLayoutOptions = new FlowLayoutOptions();
@@ -503,14 +499,14 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
 
 	}
 
-	@Override
-	public void onDetachedFromWindow(RecyclerView view, RecyclerView.Recycler recycler) {
-		super.onDetachedFromWindow(view, recycler);
-		if (globalLayoutListener != null) {
-			view.getViewTreeObserver().removeOnGlobalLayoutListener(globalLayoutListener);
-			globalLayoutListener = null;
-		}
-	}
+    @Override
+    public void onDetachedFromWindow(RecyclerView view, RecyclerView.Recycler recycler) {
+        super.onDetachedFromWindow(view, recycler);
+        if (globalLayoutListener != null) {
+            view.getViewTreeObserver().removeOnGlobalLayoutListener(globalLayoutListener);
+            globalLayoutListener = null;
+        }
+    }
 
 	@Override
 	public boolean supportsPredictiveItemAnimations() {
@@ -614,9 +610,9 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
 
 	private List<View> getAllViewsInLine(int index) {
 		int firstItemIndex = index;
-		while (!isStartOfLine(firstItemIndex)) {
-			firstItemIndex --;
-		}
+        while (!isStartOfLine(firstItemIndex)) {
+            firstItemIndex--;
+        }
 
 		List<View> viewList = new LinkedList<>();
 		viewList.add(getChildAt(firstItemIndex));
@@ -912,7 +908,7 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
             return 0;
         }
 //        if (!smoothScrollbarEnabled) {
-            return Math.abs(getPosition(startChild) - getPosition(endChild)) + 1;
+        return Math.abs(getPosition(startChild) - getPosition(endChild)) + 1;
 //        }
 //        final int extend = getDecoratedRight(endChild) - getDecoratedLeft(startChild);
 //        return Math.min(getTotalSpace(), extend);
