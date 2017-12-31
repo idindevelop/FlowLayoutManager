@@ -29,7 +29,7 @@ public class DemoAdapter extends RecyclerView.Adapter<DemoViewHolder> {
 
     @Override
     public DemoViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new DemoViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.listitem_tag, parent, false)).setShowMeta(showMeta);
+        return new DemoViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.tag, parent, false)).setShowMeta(showMeta);
     }
 
     @Override
@@ -37,8 +37,7 @@ public class DemoAdapter extends RecyclerView.Adapter<DemoViewHolder> {
         holder.setTagText(items.get(position));
         holder.tagSize.setClickable(false);
         holder.tagText.setClickable(false);
-//        holder.tagSize.setText("(" + position + ")");
-//        holder.tagSize.setVisibility(View.VISIBLE);
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,7 +50,7 @@ public class DemoAdapter extends RecyclerView.Adapter<DemoViewHolder> {
             @Override
             public boolean onLongClick(View v) {
                 int adapterPosition = holder.getAdapterPosition();
-                List<String> newItems = DemoUtil.generate(1, 3, 14, maxLinesPerItem, true);
+                List<String> newItems = DemoUtil.listWords();
                 items.addAll(adapterPosition, newItems);
                 notifyItemRangeInserted(adapterPosition, newItems.size());
                 return true;

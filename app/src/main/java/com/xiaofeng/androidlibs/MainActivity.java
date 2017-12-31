@@ -27,8 +27,8 @@ public class MainActivity extends AppCompatActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.app_bar_main);
-		Toolbar toolbar = findViewById(R.id.toolbar);
+        setContentView(R.layout.main_app_bar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
 		init();
 	}
@@ -38,8 +38,8 @@ public class MainActivity extends AppCompatActivity {
 		flowLayoutManager = new FlowLayoutManager().singleItemPerLine();
 		flowLayoutManager.setAutoMeasureEnabled(true);
 		recyclerView.setLayoutManager(flowLayoutManager);
-		recyclerView.setAdapter(new DemoAdapter(1, DemoUtil.generate(32, 10, 60, 1, false)));
-		recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
+        recyclerView.setAdapter(new DemoAdapter(1, DemoUtil.listWords()));
+        recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
 			@Override
 			public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
 				super.getItemOffsets(outRect, view, parent, state);
@@ -73,25 +73,23 @@ public class MainActivity extends AppCompatActivity {
 		int itemsPerLine = Integer.valueOf(itemsPerLineString);
 
 		String alignmentString = sharedPreferences.getString(getResources().getString(R.string.pref_key_alignment), getString(R.string.pref_alignment_default));
-		int alignmentInt = Integer.valueOf(alignmentString);
-		Alignment[] alignments = Alignment.values();
-		Alignment selectedAlignment = Alignment.LEFT;
-		for (Alignment alignment : alignments) {
-			if (alignment.ordinal() == alignmentInt) {
-				selectedAlignment = alignment;
-				break;
-			}
-		}
+
+        if (alignmentString.equals("0")) {
+            flowLayoutManager.setAlignment(Alignment.LEFT);
+        } else if (alignmentString.equals("2")) {
+            flowLayoutManager.setAlignment(Alignment.RIGHT);
+        } else {
+            flowLayoutManager.setAlignment(Alignment.CENTER);
+        }
 //		boolean showMeta = sharedPreferences.getBoolean(getString(R.string.pref_key_show_meta), false);
 
 		flowLayoutManager.maxItemsPerLine(itemsPerLine);
-		flowLayoutManager.setAlignment(selectedAlignment);
 		DemoAdapter demoAdapter = (DemoAdapter)recyclerView.getAdapter();
 //		demoAdapter.setShowMeta(showMeta);
 		String maxLinesPerItemString = sharedPreferences.getString(getString(R.string.pref_key_max_lines_per_item), getString(R.string.pref_max_lines_per_item_default));
 		int maxLinesPerItem = Integer.valueOf(maxLinesPerItemString);
-		demoAdapter.newItems(maxLinesPerItem, DemoUtil.generate(demoAdapter.getItemCount(), 3, 13, maxLinesPerItem, false));
-		recyclerView.getAdapter().notifyItemRangeChanged(0, recyclerView.getAdapter().getItemCount());
+        demoAdapter.newItems(maxLinesPerItem, DemoUtil.listWords());
+        recyclerView.getAdapter().notifyItemRangeChanged(0, recyclerView.getAdapter().getItemCount());
 	}
 
 	@Override

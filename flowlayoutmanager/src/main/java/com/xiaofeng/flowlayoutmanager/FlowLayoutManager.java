@@ -809,6 +809,7 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
                 }
                 break;
             case LEFT:
+            case CENTER:
             default:
                 if (LayoutHelper.shouldStartNewline(x, childWidth, leftVisibleEdge(), rightVisibleEdge(), layoutContext)) {
                     newLine = true;
@@ -838,7 +839,8 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
 			case RIGHT:
 				return new Point(rightVisibleEdge() - rect.width(), rect.top);
 			case LEFT:
-			default:
+            case CENTER:
+            default:
 				return new Point(leftVisibleEdge() + rect.width(), rect.top);
 		}
 
@@ -853,6 +855,7 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
             case RIGHT:
                 return x - rect.width();
             case LEFT:
+            case CENTER:
             default:
                 return x + rect.width();
         }
@@ -874,6 +877,7 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
                 case RIGHT:
                     return getDecoratedRight(getChildAt(index)) >= rightVisibleEdge();
                 case LEFT:
+                    return getDecoratedLeft(getChildAt(index)) <= leftVisibleEdge();
                 case CENTER:
                 default:
                     return getDecoratedTop(getChildAt(index)) > getDecoratedTop(getChildAt(index - 1));
@@ -921,6 +925,7 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
 
     @Override
     public int computeVerticalScrollOffset(RecyclerView.State state) {
+
         if (getChildCount() == 0) {
             return 0;
         }
