@@ -12,66 +12,69 @@ import java.util.List;
  * Adapter for Demo item
  */
 public class DemoAdapter extends RecyclerView.Adapter<DemoViewHolder> {
-	List<String> items;
-	private int maxLinesPerItem;
-	private boolean showMeta = false;
-	public DemoAdapter() {
-		this.items = new LinkedList<>();
-		maxLinesPerItem = 1;
-	}
+    List<String> items;
+    private int maxLinesPerItem;
+    private boolean showMeta = false;
 
-	public DemoAdapter(int maxLinesPerItem, List<String> items) {
-		this();
-		this.items.addAll(items);
-		this.maxLinesPerItem = maxLinesPerItem;
-	}
+    public DemoAdapter() {
+        this.items = new LinkedList<>();
+        maxLinesPerItem = 1;
+    }
 
-	@Override
-	public DemoViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-		return new DemoViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.listitem_tag, parent, false)).setShowMeta(showMeta);
-	}
+    public DemoAdapter(int maxLinesPerItem, List<String> items) {
+        this();
+        this.items.addAll(items);
+        this.maxLinesPerItem = maxLinesPerItem;
+    }
 
-	@Override
-	public void onBindViewHolder(final DemoViewHolder holder, final int position) {
-		holder.setTagText(items.get(position));
-		holder.tagSize.setClickable(false);
-		holder.tagText.setClickable(false);
-		holder.itemView.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				int adapterPosition = holder.getAdapterPosition();
-				items.remove(adapterPosition);
-				notifyItemRemoved(adapterPosition);
-			}
-		});
-		holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-			@Override
-			public boolean onLongClick(View v) {
-				int adapterPosition = holder.getAdapterPosition();
-				List<String> newItems = DemoUtil.generate(1, 3, 14, maxLinesPerItem, true);
-				items.addAll(adapterPosition, newItems);
-				notifyItemRangeInserted(adapterPosition, newItems.size());
-				return true;
-			}
-		});
-	}
+    @Override
+    public DemoViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new DemoViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.listitem_tag, parent, false)).setShowMeta(showMeta);
+    }
 
-	@Override
-	public int getItemCount() {
-		return items.size();
-	}
+    @Override
+    public void onBindViewHolder(final DemoViewHolder holder, final int position) {
+        holder.setTagText(items.get(position));
+        holder.tagSize.setClickable(false);
+        holder.tagText.setClickable(false);
+//        holder.tagSize.setText("(" + position + ")");
+//        holder.tagSize.setVisibility(View.VISIBLE);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int adapterPosition = holder.getAdapterPosition();
+                items.remove(adapterPosition);
+                notifyItemRemoved(adapterPosition);
+            }
+        });
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                int adapterPosition = holder.getAdapterPosition();
+                List<String> newItems = DemoUtil.generate(1, 3, 14, maxLinesPerItem, true);
+                items.addAll(adapterPosition, newItems);
+                notifyItemRangeInserted(adapterPosition, newItems.size());
+                return true;
+            }
+        });
+    }
 
-	public void newItems(int maxLinesPerItem, List<String> newItems) {
-		this.maxLinesPerItem = maxLinesPerItem;
-		items.clear();
-		items.addAll(newItems);
-	}
+    @Override
+    public int getItemCount() {
+        return items.size();
+    }
 
-	public int getMaxLinesPerItem() {
-		return maxLinesPerItem;
-	}
+    public void newItems(int maxLinesPerItem, List<String> newItems) {
+        this.maxLinesPerItem = maxLinesPerItem;
+        items.clear();
+        items.addAll(newItems);
+    }
 
-	public void setShowMeta(boolean showMeta) {
-		this.showMeta = showMeta;
-	}
+    public int getMaxLinesPerItem() {
+        return maxLinesPerItem;
+    }
+
+    public void setShowMeta(boolean showMeta) {
+        this.showMeta = showMeta;
+    }
 }

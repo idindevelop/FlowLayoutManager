@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
 		flowLayoutManager = new FlowLayoutManager().singleItemPerLine();
 		flowLayoutManager.setAutoMeasureEnabled(true);
 		recyclerView.setLayoutManager(flowLayoutManager);
-		recyclerView.setAdapter(new DemoAdapter(1, DemoUtil.generate(2000, 3, 13, 1, false)));
+		recyclerView.setAdapter(new DemoAdapter(1, DemoUtil.generate(32, 10, 60, 1, false)));
 		recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
 			@Override
 			public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
@@ -47,8 +47,8 @@ public class MainActivity extends AppCompatActivity {
 			}
 		});
 
-		markdownView = (MarkdownView)findViewById(R.id.instruction_mdown);
-		markdownView.loadMarkdownFile("file:///android_asset/instruction.md");
+//		markdownView = (MarkdownView)findViewById(R.id.instruction_mdown);
+//		markdownView.loadMarkdownFile("file:///android_asset/instruction.md");
 		loadSettingsFromSharedPref();
 	}
 

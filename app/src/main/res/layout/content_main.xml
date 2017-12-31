@@ -28,5 +28,11 @@
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorAccent"/>
+        android:padding="48dp"
+        android:clipToPadding="false"
+        android:scrollbars="vertical"
+        android:scrollbarStyle="outsideOverlay"
+        android:scrollbarThumbVertical="@color/colorPrimaryDark"
+        android:fadeScrollbars="false"
+        android:background="?attr/colorPrimary"/>
 </LinearLayout>
