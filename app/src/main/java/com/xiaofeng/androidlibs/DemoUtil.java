@@ -15,7 +15,7 @@ public class DemoUtil {
 	public static List<String> generate(int total, int minLen, int maxLen, int maxLinesPerItem, boolean randomOrder) {
 		ArrayList<String> result = new ArrayList<>(total);
 		StringBuilder sb = new StringBuilder();
-		for (int i = 1; i <= total; i ++) {
+		for (int i = 1; i <= total; i++) {
 			int lineCount = random.nextInt(maxLinesPerItem) + 1;
 			List<String> lines = generate(lineCount, minLen, maxLen, randomOrder);
 			boolean firstLine = true;
@@ -27,7 +27,7 @@ public class DemoUtil {
 				}
 				sb.append(line);
 			}
-			result.add(sb.toString() +  " (" + i + ")");
+			result.add(sb.toString() + " (" + i + ")");
 		}
 		return result;
 	}

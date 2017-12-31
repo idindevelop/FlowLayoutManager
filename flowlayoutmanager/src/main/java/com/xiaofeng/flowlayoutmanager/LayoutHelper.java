@@ -30,8 +30,8 @@ public class LayoutHelper {
             case CENTER:
             default:
                 return x + childWidth > rightEdge;
-		}
-	}
+        }
+    }
 
     public int leftVisibleEdge() {
         return recyclerView.getPaddingLeft();
@@ -61,6 +61,6 @@ public class LayoutHelper {
             case CENTER:
             default:
                 return new Point(leftVisibleEdge(), topVisibleEdge());
-		}
-	}
+        }
+    }
 }

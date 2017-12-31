@@ -19,8 +19,8 @@ import us.feras.mdv.MarkdownView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final int REQ_CODE_SETTINGS = 101;
-    RecyclerView recyclerView;
+	private static final int REQ_CODE_SETTINGS = 101;
+	RecyclerView recyclerView;
 	FlowLayoutManager flowLayoutManager;
 	MarkdownView markdownView;
 	private boolean settingChanged = false;
@@ -28,14 +28,14 @@ public class MainActivity extends AppCompatActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.app_bar_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+		Toolbar toolbar = findViewById(R.id.toolbar);
+		setSupportActionBar(toolbar);
 		init();
 	}
 
 	private void init() {
-        recyclerView = findViewById(R.id.list);
-        flowLayoutManager = new FlowLayoutManager().singleItemPerLine();
+		recyclerView = findViewById(R.id.list);
+		flowLayoutManager = new FlowLayoutManager().singleItemPerLine();
 		flowLayoutManager.setAutoMeasureEnabled(true);
 		recyclerView.setLayoutManager(flowLayoutManager);
 		recyclerView.setAdapter(new DemoAdapter(1, DemoUtil.generate(32, 10, 60, 1, false)));
