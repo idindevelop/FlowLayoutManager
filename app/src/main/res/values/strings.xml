@@ -47,4 +47,8 @@
     <string name="pref_show_meta_summary_on">Show metadata</string>
     <string name="pref_show_meta_summary_off">Hide metadata</string>
     <bool name="pref_show_meta_default">false</bool>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
 </resources>

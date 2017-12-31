@@ -27,7 +27,6 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
     private int firstChildAdapterPosition = 0;
     private RecyclerView.Recycler recyclerRef;
     private FlowLayoutOptions flowLayoutOptions;
-    private FlowLayoutOptions newFlowLayoutOptions;
     private LayoutHelper layoutHelper;
     private CacheHelper cacheHelper;
     @Nullable
@@ -35,7 +34,6 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
 
 	public FlowLayoutManager() {
 		flowLayoutOptions = new FlowLayoutOptions();
-		newFlowLayoutOptions = FlowLayoutOptions.clone(flowLayoutOptions);
 	}
 
 	@Override
@@ -87,7 +85,7 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
 
 		// this option use old options alignment & new options line limit to calc items for animation.
 		LayoutContext afterContext = LayoutContext.clone(beforeContext);
-		afterContext.layoutOptions.itemsPerLine = newFlowLayoutOptions.itemsPerLine;
+        afterContext.layoutOptions.itemsPerLine = flowLayoutOptions.itemsPerLine;
 
 		// track before removed and after removed layout in same time, to make sure only add items at
 		// bottom that visible after item removed.
@@ -137,7 +135,6 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
 			}
 			currentItemPosition ++;
 		}
-		flowLayoutOptions = FlowLayoutOptions.clone(newFlowLayoutOptions);
 	}
 
     private void onRealLayoutChildren(RecyclerView.Recycler recycler) {
@@ -162,7 +159,7 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
                 return;
             } else {
                 addView(child);
-                appenders.add(new LayoutManagerAppender(child, this, rect));
+                appenders.add(new LayoutManagerAppender(child, this, rect, flowLayoutOptions.alignment));
                 cacheHelper.setItem(i, new Point(rect.width(), rect.height()));
             }
 
@@ -256,7 +253,7 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
 
     @Override
     public void onItemsChanged(RecyclerView recyclerView) {
-        this.flowLayoutOptions = FlowLayoutOptions.clone(newFlowLayoutOptions);
+        this.flowLayoutOptions = FlowLayoutOptions.clone(flowLayoutOptions);
         if (cacheHelper != null) {
             cacheHelper.clear();
         }
@@ -428,7 +425,7 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
                 rect.bottom -= rectHeight;
                 firstItem = false;
             }
-            appenders.add(new LayoutManagerAppender(childView, this, rect));
+            appenders.add(new LayoutManagerAppender(childView, this, rect, flowLayoutOptions.alignment));
             x = advanceInSameLine(x, rect, layoutContext);
         }
 
@@ -467,7 +464,7 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
                 break;
             } else {
                 addView(newChild);
-                appenders.add(new LayoutManagerAppender(newChild, this, rect));
+                appenders.add(new LayoutManagerAppender(newChild, this, rect, flowLayoutOptions.alignment));
                 x = advanceInSameLine(x, rect, layoutContext);
                 childAdapterPosition++;
                 firstItem = false;
@@ -570,42 +567,46 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
     }
 
     private int getMaxHeightLayoutPositionInLine(int layoutPosition) {
-        final View child = getChildAt(layoutPosition);
-        int maxIndexBefore = layoutPosition, maxIndexAfter = layoutPosition, maxHeightBefore = getDecoratedMeasuredHeight(child), maxHeightAfter = getDecoratedMeasuredHeight(child);
-        int currentIndex = layoutPosition;
-        LayoutContext layoutContext = LayoutContext.fromLayoutOptions(flowLayoutOptions);
-        while (currentIndex >= 0 && !isStartOfLine(currentIndex, layoutContext)) {
-            final View beforeChild = getChildAt(currentIndex);
-            if (getDecoratedMeasuredHeight(beforeChild) > maxHeightBefore) {
+        try {
+            final View child = getChildAt(layoutPosition);
+            int maxIndexBefore = layoutPosition, maxIndexAfter = layoutPosition, maxHeightBefore = getDecoratedMeasuredHeight(child), maxHeightAfter = getDecoratedMeasuredHeight(child);
+            int currentIndex = layoutPosition;
+            LayoutContext layoutContext = LayoutContext.fromLayoutOptions(flowLayoutOptions);
+            while (currentIndex >= 0 && !isStartOfLine(currentIndex, layoutContext)) {
+                final View beforeChild = getChildAt(currentIndex);
+                if (getDecoratedMeasuredHeight(beforeChild) > maxHeightBefore) {
+                    maxIndexBefore = currentIndex;
+                    maxHeightBefore = getDecoratedMeasuredHeight(beforeChild);
+                }
+                currentIndex--;
+            }
+            // count in first one in line
+            if (maxHeightBefore < getDecoratedMeasuredHeight(getChildAt(currentIndex))) {
                 maxIndexBefore = currentIndex;
-                maxHeightBefore = getDecoratedMeasuredHeight(beforeChild);
+                maxHeightBefore = getDecoratedMeasuredHeight(getChildAt(currentIndex));
             }
-            currentIndex--;
-        }
-        // count in first one in line
-        if (maxHeightBefore < getDecoratedMeasuredHeight(getChildAt(currentIndex))) {
-            maxIndexBefore = currentIndex;
-            maxHeightBefore = getDecoratedMeasuredHeight(getChildAt(currentIndex));
-        }
 
-        currentIndex = layoutPosition;
-        while (currentIndex < getChildCount() && !isEndOfLine(currentIndex, layoutContext)) {
-            final View afterChild = getChildAt(currentIndex);
-            if (getDecoratedMeasuredHeight(afterChild) > maxHeightAfter) {
-                maxIndexAfter = currentIndex;
-                maxHeightAfter = getDecoratedMeasuredHeight(afterChild);
+            currentIndex = layoutPosition;
+            while (currentIndex < getChildCount() && !isEndOfLine(currentIndex, layoutContext)) {
+                final View afterChild = getChildAt(currentIndex);
+                if (getDecoratedMeasuredHeight(afterChild) > maxHeightAfter) {
+                    maxIndexAfter = currentIndex;
+                    maxHeightAfter = getDecoratedMeasuredHeight(afterChild);
+                }
+                currentIndex++;
             }
-            currentIndex++;
+            // count in last one in line
+            if (maxHeightAfter < getDecoratedMeasuredHeight(getChildAt(currentIndex))) {
+                maxIndexAfter = currentIndex;
+                maxHeightAfter = getDecoratedMeasuredHeight(getChildAt(currentIndex));
+            }
+            if (maxHeightBefore >= maxHeightAfter) {
+                return maxIndexBefore;
+            }
+            return maxIndexAfter;
+        } catch (Exception e) {
+            return 0;
         }
-        // count in last one in line
-        if (maxHeightAfter < getDecoratedMeasuredHeight(getChildAt(currentIndex))) {
-            maxIndexAfter = currentIndex;
-            maxHeightAfter = getDecoratedMeasuredHeight(getChildAt(currentIndex));
-        }
-        if (maxHeightBefore >= maxHeightAfter) {
-            return maxIndexBefore;
-        }
-        return maxIndexAfter;
     }
 
 	private List<View> getAllViewsInLine(int index) {
@@ -732,16 +733,13 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
     }
 
     public FlowLayoutManager setAlignment(Alignment alignment) {
-        newFlowLayoutOptions.alignment = alignment;
+        flowLayoutOptions.alignment = alignment;
         return this;
     }
 
     public FlowLayoutManager singleItemPerLine() {
-        if (layoutHelper == null) {
-            flowLayoutOptions.itemsPerLine = 1;
-        } else {
-            newFlowLayoutOptions.itemsPerLine = 1;
-        }
+        flowLayoutOptions.itemsPerLine = 1;
+
         if (cacheHelper != null) {
             cacheHelper.clear();
         }
@@ -752,11 +750,8 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
     }
 
     public FlowLayoutManager maxItemsPerLine(int itemsPerLine) {
-        if (layoutHelper == null) {
-            flowLayoutOptions.itemsPerLine = itemsPerLine;
-        } else {
-            newFlowLayoutOptions.itemsPerLine = itemsPerLine;
-        }
+        flowLayoutOptions.itemsPerLine = itemsPerLine;
+
         if (cacheHelper != null) {
             cacheHelper.clear();
         }
@@ -767,11 +762,8 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
     }
 
     public FlowLayoutManager removeItemPerLineLimit() {
-        if (layoutHelper == null) {
-            flowLayoutOptions.itemsPerLine = FlowLayoutOptions.ITEM_PER_LINE_NO_LIMIT;
-        } else {
-            newFlowLayoutOptions.itemsPerLine = FlowLayoutOptions.ITEM_PER_LINE_NO_LIMIT;
-        }
+        flowLayoutOptions.itemsPerLine = FlowLayoutOptions.ITEM_PER_LINE_NO_LIMIT;
+
         if (cacheHelper != null) {
             cacheHelper.clear();
         }
@@ -901,21 +893,27 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
 
     @Override
     public int computeVerticalScrollExtent(RecyclerView.State state) {
+
         if (getChildCount() == 0) {
             return 0;
         }
 
-        View startChild = getChildAt(0);
-        View endChild = getChildAt(getChildCount() - 1);
+        if (flowLayoutOptions.alignment == Alignment.CENTER) {
 
-        if (state.getItemCount() == 0 || startChild == null || endChild == null) {
-            return 0;
-        }
+            View startChild = getChildAt(0);
+            View endChild = getChildAt(getChildCount() - 1);
+
+            if (state.getItemCount() == 0 || startChild == null || endChild == null) {
+                return 0;
+            }
 //        if (!smoothScrollbarEnabled) {
-        return Math.abs(getPosition(startChild) - getPosition(endChild)) + 1;
+            return Math.abs(getPosition(startChild) - getPosition(endChild)) + 1;
 //        }
 //        final int extend = getDecoratedRight(endChild) - getDecoratedLeft(startChild);
 //        return Math.min(getTotalSpace(), extend);
+        }
+        return super.computeVerticalScrollExtent(state);
+
 
     }
 
@@ -929,24 +927,28 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
         if (getChildCount() == 0) {
             return 0;
         }
+        if (flowLayoutOptions.alignment == Alignment.CENTER) {
 
-        View startChild = getChildAt(0);
-        View endChild = getChildAt(getChildCount() - 1);
 
-        if (state.getItemCount() == 0 || startChild == null || endChild == null) {
-            return 0;
-        }
-        final int minPosition = Math.min(getPosition(startChild), getPosition(endChild));
-        final int maxPosition = Math.max(getPosition(startChild), getPosition(endChild));
-        final int itemsBefore = Math.max(0, minPosition);
+            View startChild = getChildAt(0);
+            View endChild = getChildAt(getChildCount() - 1);
 
-        return itemsBefore;
+            if (state.getItemCount() == 0 || startChild == null || endChild == null) {
+                return 0;
+            }
+            final int minPosition = Math.min(getPosition(startChild), getPosition(endChild));
+            final int maxPosition = Math.max(getPosition(startChild), getPosition(endChild));
+            final int itemsBefore = Math.max(0, minPosition);
+
+            return itemsBefore;
 
 //        final int laidOutArea = Math.abs(getDecoratedBottom(endChild) - getDecoratedTop(startChild));
 //        final int itemRange = Math.abs(getPosition(startChild) - getPosition(endChild)) + 1;
 //        final float avgSizePerRow = (float) laidOutArea / itemRange;
 //
 //        return Math.round(itemsBefore * avgSizePerRow + (getPaddingTop() - getDecoratedTop(startChild)));
+        }
+        return super.computeVerticalScrollOffset(state);
     }
 
     @Override

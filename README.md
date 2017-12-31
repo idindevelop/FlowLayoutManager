@@ -7,6 +7,8 @@ FlowLayoutManager is a layoutManager that works with Android ___RecyclerView___ 
 
 ## Screenshots
 <img src="https://github.com/simonebortolin/FlowLayoutManager/blob/master/image_1.png" alt="" width="200px"></a>
+<img src="https://github.com/simonebortolin/FlowLayoutManager/blob/master/image_2.png" alt="" width="200px"></a>
+<img src="https://github.com/simonebortolin/FlowLayoutManager/blob/master/image_3.png" alt="" width="200px"></a>
 
 ## Installation
 
@@ -23,7 +25,7 @@ Step 1. Add it in your **root** build.gradle at the end of repositories:
 Step 2. Add the dependency
 
 	dependencies {
-	        compile 'com.github.simonebortolin:FlowLayoutManager:1.3.1'
+	        compile 'com.github.simonebortolin:FlowLayoutManager:1.4.0'
 	}
 
 Item per line limitation
