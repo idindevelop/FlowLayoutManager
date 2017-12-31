@@ -19,26 +19,26 @@ import us.feras.mdv.MarkdownView;
 
 public class MainActivity extends AppCompatActivity {
 
-	RecyclerView recyclerView;
+    private static final int REQ_CODE_SETTINGS = 101;
+    RecyclerView recyclerView;
 	FlowLayoutManager flowLayoutManager;
 	MarkdownView markdownView;
-	private static final int REQ_CODE_SETTINGS = 101;
 	private boolean settingChanged = false;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.app_bar_main);
-		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-		setSupportActionBar(toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 		init();
 	}
 
 	private void init() {
-		recyclerView = (RecyclerView) findViewById(R.id.list);
-		flowLayoutManager = new FlowLayoutManager().singleItemPerLine();
+        recyclerView = findViewById(R.id.list);
+        flowLayoutManager = new FlowLayoutManager().singleItemPerLine();
 		flowLayoutManager.setAutoMeasureEnabled(true);
 		recyclerView.setLayoutManager(flowLayoutManager);
-		recyclerView.setAdapter(new DemoAdapter(1, DemoUtil.generate(2000, 3, 13, 1, false)));
+		recyclerView.setAdapter(new DemoAdapter(1, DemoUtil.generate(32, 10, 60, 1, false)));
 		recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
 			@Override
 			public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
@@ -47,8 +47,8 @@ public class MainActivity extends AppCompatActivity {
 			}
 		});
 
-		markdownView = (MarkdownView)findViewById(R.id.instruction_mdown);
-		markdownView.loadMarkdownFile("file:///android_asset/instruction.md");
+//		markdownView = (MarkdownView)findViewById(R.id.instruction_mdown);
+//		markdownView.loadMarkdownFile("file:///android_asset/instruction.md");
 		loadSettingsFromSharedPref();
 	}
 
