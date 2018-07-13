@@ -4,8 +4,8 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.jfrog.bintray'
 
 project.ext {
-    libVersion = '1.4.0'
-    libVersionCode = 7
+    libVersion = '1.5.0'
+    libVersionCode = 15
     libGroupId = 'com.xiaofeng.android'
     libArtifactId = 'flowlayoutmanager'
     gitUrl = 'git@github.com:xiaofeng-han/AndroidLibs.git'
@@ -46,12 +46,12 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestCompile 'junit:junit:4.12'
-    compile(group: 'com.android.support', name: 'appcompat-v7', version: supportLibVersion)
-    compile(group: 'com.android.support', name: 'recyclerview-v7', version: supportLibVersion)
-    androidTestCompile 'com.android.support:support-annotations:26.1.0'
-    androidTestCompile 'com.android.support.test:runner:1.0.1'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestImplementation 'junit:junit:4.12'
+    implementation(group: 'com.android.support', name: 'appcompat-v7', version: supportLibVersion)
+    implementation(group: 'com.android.support', name: 'recyclerview-v7', version: supportLibVersion)
+    androidTestImplementation 'com.android.support:support-annotations:27.1.1'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
 
 }
 
