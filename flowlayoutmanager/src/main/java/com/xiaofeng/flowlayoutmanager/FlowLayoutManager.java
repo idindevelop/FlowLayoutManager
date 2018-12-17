@@ -219,7 +219,7 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
             View bottomChild = getChildAt(getMaxHeightLayoutPositionInLine(getChildCount() - 1));
 
             return !(getChildAdapterPosition(lastChild) == recyclerView.getAdapter().getItemCount() - 1
-                    && getDecoratedBottom(bottomChild) <= bottomVisibleEdge());
+                    && (bottomChild != null && getDecoratedBottom(bottomChild) <= bottomVisibleEdge()));
         }
     }
 
