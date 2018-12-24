@@ -22,7 +22,11 @@ import java.util.List;
  */
 public class FlowLayoutManager extends RecyclerView.LayoutManager {
 
-	private static final String LOG_TAG = "FlowLayoutManager";
+    private static final String LOG_TAG = "FlowLayoutManager";
+
+    private static final int SCROLL_UP = -1;
+    private static final int SCROLL_DOWN = 1;
+
     private RecyclerView recyclerView;
     private int firstChildAdapterPosition = 0;
     private RecyclerView.Recycler recyclerRef;
@@ -195,23 +199,28 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
             return false;
         }
 
-        View firstChild = getChildAt(0);
-        View lastChild = getChildAt(getChildCount() - 1);
-        View topChild = getChildAt(getMaxHeightLayoutPositionInLine(0));
-        View bottomChild = getChildAt(getMaxHeightLayoutPositionInLine(getChildCount() - 1));
-        boolean topReached = false, bottomReached = false;
-        if (getChildAdapterPosition(firstChild) == 0) {
-            if (getDecoratedTop(topChild) >= topVisibleEdge()) {
-                topReached = true;
-            }
-        }
+        return canScrollVertically(SCROLL_UP) || canScrollVertically(SCROLL_DOWN);
+    }
 
-        if (getChildAdapterPosition(lastChild) == recyclerView.getAdapter().getItemCount() - 1) {
-            if (getDecoratedBottom(bottomChild) <= bottomVisibleEdge()) {
-                bottomReached = true;
-            }
+    /**
+     * Check if this view can be scrolled vertically in a certain direction.
+     *
+     * @param direction Negative to check scrolling up, positive to check scrolling down.
+     * @return true if this view can be scrolled in the specified direction, false otherwise.
+     */
+    public boolean canScrollVertically(final int direction) {
+        if (direction < 0) {
+            final View firstChild = getChildAt(0);
+            final View topChild = getChildAt(getMaxHeightLayoutPositionInLine(0));
+
+            return !(getChildAdapterPosition(firstChild) == 0 && getDecoratedTop(topChild) >= topVisibleEdge());
+        } else {
+            View lastChild = getChildAt(getChildCount() - 1);
+            View bottomChild = getChildAt(getMaxHeightLayoutPositionInLine(getChildCount() - 1));
+
+            return !(getChildAdapterPosition(lastChild) == recyclerView.getAdapter().getItemCount() - 1
+                    && (bottomChild != null && getDecoratedBottom(bottomChild) <= bottomVisibleEdge()));
         }
-        return !(topReached && bottomReached);
     }
 
     @Override

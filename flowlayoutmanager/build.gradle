@@ -4,8 +4,8 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.jfrog.bintray'
 
 project.ext {
-    libVersion = '1.5'
-    libVersionCode = 15
+    libVersion = '1.6'
+    libVersionCode = 16
     libGroupId = 'com.xiaofeng.android'
     libArtifactId = 'flowlayoutmanager'
     gitUrl = 'git@github.com:xiaofeng-han/AndroidLibs.git'
