@@ -16,11 +16,4 @@
         android:title="@string/pref_max_lines_per_item_title"
         android:defaultValue="@string/pref_max_lines_per_item_default"
         android:inputType="numberDecimal"/>
-    <!--<SwitchPreference-->
-        <!--android:key="@string/pref_key_show_meta"-->
-        <!--android:title="@string/pref_show_meta_title"-->
-        <!--android:defaultValue="@bool/pref_show_meta_default"-->
-        <!--android:summaryOn="@string/pref_show_meta_summary_on"-->
-        <!--android:summaryOff="@string/pref_show_meta_summary_off"/>-->
-
 </PreferenceScreen>

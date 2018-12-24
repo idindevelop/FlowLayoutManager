@@ -51,4 +51,7 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="left">Left</string>
+    <string name="center">Center</string>
+    <string name="rigth">Rigth</string>
 </resources>

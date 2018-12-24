@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.navigation_left:
                     flowLayoutManager = new FlowLayoutManager().setAlignment(Alignment.LEFT);
+                    flowLayoutManager.setAutoMeasureEnabled(true);
 
                     recyclerView.setLayoutManager(flowLayoutManager);
                     recyclerView.getAdapter().notifyDataSetChanged();

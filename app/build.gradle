@@ -7,8 +7,8 @@ android {
         applicationId "com.xiaofeng.androidlibs"
         minSdkVersion androidMinSdkVersion
         targetSdkVersion androidTargetSdkVersion
-        versionCode 15
-        versionName "1.5"
+        versionCode 17
+        versionName "1.7"
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {

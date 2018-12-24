@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@drawable/tagbg"
@@ -13,13 +14,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="4dp"
-        android:text="0000"
-        android:textColor="@color/colorPrimary" />
+        tools:text="0000"
+        android:textColor="@color/colorPrimary"
+        android:layout_marginEnd="4dp" />
     <TextView
         android:id="@+id/tag_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="(4)"
+        tools:text="(4)"
         android:textColor="@color/colorPrimary" />
 
 </LinearLayout>

@@ -4,16 +4,15 @@
     <item
         android:id="@+id/navigation_left"
         android:icon="@drawable/ic_format_align_left_black_24dp"
-        android:title="Left" />
+        android:title="@string/left" />
 
     <item
         android:id="@+id/navigation_center"
         android:icon="@drawable/ic_format_align_center_black_24dp"
-        android:title="Center" />
+        android:title="@string/center" />
 
     <item
         android:id="@+id/navigation_rigth"
         android:icon="@drawable/ic_format_align_right_black_24dp"
-        android:title="Rigth" />
-
+        android:title="@string/rigth" />
 </menu>
