@@ -1,7 +1,7 @@
 package com.xiaofeng.flowlayoutmanager;
 
 import android.graphics.Point;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Created by xhan on 4/11/16.
