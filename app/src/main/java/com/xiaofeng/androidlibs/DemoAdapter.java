@@ -33,7 +33,7 @@ public class DemoAdapter extends RecyclerView.Adapter<DemoViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull final DemoViewHolder holder, final int position) {
         holder.setTagText(items.get(position));
-        holder.tagSize.setClickable(false);
+        //holder.tagSize.setClickable(false);
         holder.tagText.setClickable(false);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {

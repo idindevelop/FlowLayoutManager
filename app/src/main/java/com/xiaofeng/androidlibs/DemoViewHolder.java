@@ -9,7 +9,7 @@ public class DemoViewHolder extends RecyclerView.ViewHolder {
 	public DemoViewHolder(View itemView) {
 		super(itemView);
 		tagText = itemView.findViewById(R.id.tag_text);
-		tagSize = itemView.findViewById(R.id.tag_count);
+		//tagSize = itemView.findViewById(R.id.tag_count);
 	}
 
 	public void setTagText(String tag) {
