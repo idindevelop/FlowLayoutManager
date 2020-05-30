@@ -88,8 +88,7 @@ I thank all the authors of the various commits that I have included in my fork
 
 
 ## License
-	Copyright 2016 xiaofeng-han
-	Copyright 2018-2020 Simone Bortolin
+	Copyright (c) 2016 xiaofeng-han
       
     Licensed under the GNU GENERAL PUBLIC LICENSE (the "License");
     you may not use this file except in compliance with the License.
