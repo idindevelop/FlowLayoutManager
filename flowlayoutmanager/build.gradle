@@ -3,29 +3,16 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.jfrog.bintray'
 
-project.ext {
-    libVersion = '0.1'
-    libVersionCode = 1
-    libGroupId = 'com.xiaofeng.android'
-    libArtifactId = 'flowlayoutmanager'
-    gitUrl = 'git@github.com:xiaofeng-han/AndroidLibs.git'
-    siteUrl = 'https://github.com/xiaofeng-han/AndroidLibs'
-}
-
-repositories {
-    jcenter()
-}
-
-group = 'com.xiaofeng.android'
-version = libVersion
-
 android {
     compileSdkVersion androidCompileSdkVersion
+
+    buildToolsVersion buildToolsVersion
+
     defaultConfig {
         minSdkVersion androidMinSdkVersion
         targetSdkVersion androidTargetSdkVersion
-        versionCode libVersionCode
-        versionName libVersion
+        versionCode versionCode
+        versionName versionName
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
     testOptions {

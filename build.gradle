@@ -6,7 +6,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.0.0-beta04'
+        classpath 'com.android.tools.build:gradle:4.0.0'
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
         // NOTE: Do not place your application dependencies here; they belong
@@ -23,9 +23,13 @@ allprojects {
 
 subprojects {
     ext.supportLibVersion = '1.0.0'
-    ext.androidCompileSdkVersion = 28
+    ext.androidCompileSdkVersion = 29
     ext.androidMinSdkVersion = 21
-    ext.androidTargetSdkVersion = 28
+    ext.androidTargetSdkVersion = 29
+    ext.buildToolsVersion = "29.0.3"
+    ext.versionName = "1.8.0"
+    ext.versionCode = 18
+
 }
 
 task clean(type: Delete) {

@@ -2,12 +2,15 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion androidCompileSdkVersion
+
+    buildToolsVersion buildToolsVersion
+
     defaultConfig {
         applicationId "com.xiaofeng.androidlibs"
         minSdkVersion androidMinSdkVersion
         targetSdkVersion androidTargetSdkVersion
-        versionCode 17
-        versionName "1.7"
+        versionCode versionCode
+        versionName versionName
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
