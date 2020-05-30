@@ -2,15 +2,18 @@ package com.xiaofeng.androidlibs;
 
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.xiaofeng.flowlayoutmanager.Alignment;
 import com.xiaofeng.flowlayoutmanager.FlowLayoutManager;
+
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -18,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
     FlowLayoutManager flowLayoutManager;
     RecyclerView.ItemDecoration itemDecoration = new RecyclerView.ItemDecoration() {
         @Override
-        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+        public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
             super.getItemOffsets(outRect, view, parent, state);
             outRect.set(5, 5, 5, 5);
         }
@@ -35,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
                     flowLayoutManager.setAutoMeasureEnabled(true);
 
                     recyclerView.setLayoutManager(flowLayoutManager);
-                    recyclerView.getAdapter().notifyDataSetChanged();
+                    Objects.requireNonNull(recyclerView.getAdapter()).notifyDataSetChanged();
 
                     return true;
                 case R.id.navigation_center:
@@ -66,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
         recyclerView = findViewById(R.id.list);
         flowLayoutManager = new FlowLayoutManager().setAlignment(Alignment.LEFT);
         flowLayoutManager.setAutoMeasureEnabled(true);
@@ -75,7 +77,5 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.getAdapter().notifyDataSetChanged();
         recyclerView.addItemDecoration(itemDecoration);
 
-
     }
-
 }
