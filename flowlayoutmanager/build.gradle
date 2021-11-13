@@ -1,12 +1,10 @@
 // to publish run ./gradlew clean bintrayUpload
 
 apply plugin: 'com.android.library'
-apply plugin: 'com.jfrog.bintray'
-
+apply plugin:'maven-publish'
 android {
     compileSdkVersion androidCompileSdkVersion
 
-    buildToolsVersion buildToolsVersion
 
     defaultConfig {
         minSdkVersion androidMinSdkVersion
@@ -25,15 +23,27 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
-}
+    afterEvaluate {
+        publishing {
+            publications {
+                release(MavenPublication) {
+                    from components.release
+                    groupId = "ntk.android.base"
+                    artifactId = 'flowlayout'
+                    version = version
+                }
+            }
+        }
+    }
 
-dependencies {
-    implementation(group: 'androidx.appcompat', name: 'appcompat', version: supportLibVersion)
-    implementation(group: 'androidx.recyclerview', name: 'recyclerview', version: supportLibVersion)
-}
+    dependencies {
+        implementation(group: 'androidx.appcompat', name: 'appcompat', version: supportLibVersion)
+        implementation(group: 'androidx.recyclerview', name: 'recyclerview', version: supportLibVersion)
+    }
 
-Properties properties = new Properties()
-properties.load(project.rootProject.file('local.properties').newDataInputStream())
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+}
